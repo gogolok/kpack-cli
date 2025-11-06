@@ -74,12 +74,6 @@ jobs:
         }
 
         build darwin amd64
-        build darwin arm64
-        build linux amd64
-        build linux arm64
-        build windows amd64
-
-        mv kp-binaries/kp-windows-amd64-${{ env.VERSION }} kp-binaries/kp-windows-amd64-${{ env.VERSION }}.exe
 
     - name: Upload binaries
       uses: actions/upload-artifact@v4
@@ -121,11 +115,12 @@ jobs:
 
     - name: Create Draft Release
       uses: softprops/action-gh-release@v1
+      permissions:
+        contents: write
       with:
         name: kp v${{ env.VERSION }}
         tag_name: v${{ env.VERSION }}
         target_commitish: ${{ github.sha }}
-        token: ${{ secrets.RELEASE_TOKEN }}
         draft: true
         prerelease: true
         generate_release_notes: true
